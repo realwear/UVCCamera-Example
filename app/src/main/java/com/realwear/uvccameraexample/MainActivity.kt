@@ -1,7 +1,7 @@
-/**
- * RealWear Development Software, Source Code and Object Code
+/*
+ * RealWear Development Software, Source Code and Object Code.
  * (c) RealWear, Inc. All rights reserved.
- * <p>
+ *
  * Contact info@realwear.com for further information about the use of this code.
  */
 
@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
 
     override fun onStart() {
         super.onStart()
-        mUSBMonitor!!.register()
+        mUSBMonitor?.register()
     }
 
     override fun onStop() {
-        mUSBMonitor!!.unregister()
+        mUSBMonitor?.unregister()
         super.onStop()
     }
 
@@ -46,13 +46,17 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
         Log.i(TAG, "Device has been attached")
 
         // When the camera is attached, we need to ask the user for permission to access it.
-        mUSBMonitor!!.requestPermission(device)
+        mUSBMonitor?.requestPermission(device)
     }
 
     /**
      * Called when the camera connects
      */
-    override fun onConnect(device: UsbDevice?, controlBlock: USBMonitor.UsbControlBlock?, createNew: Boolean) {
+    override fun onConnect(
+        device: UsbDevice?,
+        controlBlock: USBMonitor.UsbControlBlock?,
+        createNew: Boolean
+    ) {
         Log.i(TAG, "Device has been connected")
     }
 
