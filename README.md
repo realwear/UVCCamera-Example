@@ -21,6 +21,6 @@ And add the dependency in your apps build.gradle file:
 
 ```
 dependencies {
-     implementation 'com.realwear.UVCCamera:libuvccamera:88ac8fba5d'
+     implementation 'com.realwear.UVCCamera:libuvccamera:v1.0.0'
 }
 ```
