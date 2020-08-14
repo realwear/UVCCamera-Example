@@ -12,7 +12,6 @@ import android.hardware.usb.UsbDevice
 import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.Surface
 import com.serenegiant.usb.Size
@@ -25,7 +24,6 @@ import kotlinx.coroutines.sync.withLock
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
 
 /**
  * Main activity for the application
@@ -159,51 +157,48 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     }
 
     /**
-     * An example of saving a bitmap from the surface as a photo.
-     *
-     * The application will need to request the WRITE_EXTERNAL_STORAGE permission to use this.
+     * An example of saving a photo to [saveFile] using a surface.
      */
-//    private fun takePhoto(saveFile: File) {
-//        val bitmap = textureView.bitmap
-//
-//        try {
-//            // Compress the bitmap and save in jpg format
-//            FileOutputStream(saveFile).use { stream ->
-//                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-//            }
-//        } catch (e: IOException) {
-//            Log.e(TAG, "Failed to save image", e)
-//            return
-//        }
-//    }
+    @Suppress("unused") // Method used to show example
+    private fun takePhoto(saveFile: File) {
+        val bitmap = textureView.bitmap
+
+        try {
+            // Compress the bitmap and save in jpg format
+            FileOutputStream(saveFile).use { stream ->
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            }
+        } catch (e: IOException) {
+            Log.e(TAG, "Failed to save image", e)
+            return
+        }
+    }
 
     /**
-     * An example of saving a video using a surface
-     *
-     * The application will need to request the WRITE_EXTERNAL_STORAGE and the RECORD_AUDIO
-     * permissions to use this.
+     * An example of saving a video to [saveFile] using a surface
      */
-//    private fun takeVideo(saveFile: File) {
-//        val mediaRecorder = MediaRecorder()
-//        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-//        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-//        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-//
-//        surface?.let { mediaRecorder.setInputSurface(it) }
-//
-//        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-//        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC_ELD)
-//        mediaRecorder.setAudioSamplingRate(1600) // Set sampling rate to 16kHz
-//        mediaRecorder.setOutputFile(saveFile)
-//        mediaRecorder.setVideoSize(currentSize.width, currentSize.height)
-//
-//        try {
-//            mediaRecorder.prepare()
-//            mediaRecorder.start()
-//        } catch (e: IOException) {
-//            Log.e(TAG, "MediaRecorder prepare() failed", e)
-//        }
-//    }
+    @Suppress("unused") // Method used to show example
+    private fun takeVideo(saveFile: File) {
+        val mediaRecorder = MediaRecorder()
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+
+        surface?.let { mediaRecorder.setInputSurface(it) }
+
+        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC_ELD)
+        mediaRecorder.setAudioSamplingRate(1600) // Set sampling rate to 16kHz
+        mediaRecorder.setOutputFile(saveFile)
+        mediaRecorder.setVideoSize(currentSize.width, currentSize.height)
+
+        try {
+            mediaRecorder.prepare()
+            mediaRecorder.start()
+        } catch (e: IOException) {
+            Log.e(TAG, "MediaRecorder prepare() failed", e)
+        }
+    }
 
     /**
      * Find a valid resolution that the [camera] supports.
