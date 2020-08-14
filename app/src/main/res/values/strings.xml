@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UVCCamera Example</string>
+    <string name="take_photo">Take Photo</string>
 </resources>
