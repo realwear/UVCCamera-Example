@@ -7,17 +7,14 @@
 
 package com.realwear.uvccameraexample
 
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.hardware.usb.UsbDevice
+import android.media.MediaRecorder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.Surface
-import android.view.View
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.serenegiant.usb.Size
 import com.serenegiant.usb.USBMonitor
 import com.serenegiant.usb.UVCCamera
@@ -39,9 +36,11 @@ import java.util.*
 class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     private var mUSBMonitor: USBMonitor? = null
     private var currentCamera: UVCCamera? = null
+    private var currentSize = EMPTY_SIZE
     private val cameraMutex = Mutex()
     private var surface: Surface? = null
-    private val photoFolder =
+    private var mediaRecorder = MediaRecorder()
+    private val saveFolder =
         File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +103,9 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
             Log.e(TAG, "Failed to find a resolution from the camera")
             return
         }
+
+        // This frame format is used for the thermal camera.
+        // To use a different camera type, the format may have to be changed.
         camera.setPreviewSize(size.width, size.height, UVCCamera.FRAME_FORMAT_UYVY)
 
         camera.startPreview()
@@ -160,17 +162,13 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     }
 
     /**
-     * Save a bitmap from the surface as a photo
+     * An example of saving a bitmap from the surface as a photo.
+     *
+     * The application will need to request the WRITE_EXTERNAL_STORAGE permission to use this.
      */
-    public fun onTakePhoto(v: View) {
-        // Check for permission to save photo
-        if (!isGranted()) {
-            makeRequest()
-            return
-        }
-
+    private fun takePhoto() {
         val bitmap = textureView.bitmap
-        var file = photoFolder
+        var file = saveFolder
         if (!file.exists()) {
             file.mkdirs()
         }
@@ -188,6 +186,58 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     }
 
     /**
+     * An example of saving a video using a surface
+     *
+     * The application will need to request the WRITE_EXTERNAL_STORAGE and the RECORD_AUDIO
+     * permissions to use this.
+     */
+    private fun takeVideo() {
+        var file = saveFolder
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+
+        file = File(file, "${UUID.randomUUID()}.mp4")
+        Log.i(TAG, "Video should be saved to: " + file.absolutePath)
+
+        mediaRecorder = MediaRecorder()
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+
+        surface?.let { mediaRecorder.setInputSurface(it) }
+
+        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC_ELD)
+        mediaRecorder.setAudioSamplingRate(1600) // Set sampling rate to 16kHz
+        mediaRecorder.setOutputFile(file)
+        mediaRecorder.setVideoSize(currentSize.width, currentSize.height)
+
+        try {
+            mediaRecorder.prepare()
+            mediaRecorder.start()
+        } catch (e: IOException) {
+            Log.e(TAG, "MediaRecorder prepare() failed", e)
+        }
+    }
+
+    /**
+     * Stop recording a video
+     *
+     * Called when video recording is completed
+     */
+    private fun stopVideo() {
+        try {
+            mediaRecorder.stop()
+            mediaRecorder.reset()
+            mediaRecorder.release()
+        } catch (e: IOException) {
+            Log.e(TAG, "MediaRecorder stop() failed", e)
+            return
+        }
+    }
+
+    /**
      * Find a valid resolution that the [camera] supports.
      */
     private fun getResolution(camera: UVCCamera): Size {
@@ -195,30 +245,6 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
 
         if (possibleSizes.isEmpty()) return EMPTY_SIZE
         return possibleSizes.first()
-    }
-
-    /**
-     * Return true if permission to write to external storage is granted
-     */
-    private fun isGranted(): Boolean {
-        val permissionWrite = ContextCompat.checkSelfPermission(
-            this,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        return permissionWrite == PackageManager.PERMISSION_GRANTED
-    }
-
-    /**
-     * Show user the permission request dialog
-     */
-    private fun makeRequest() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            1
-        )
     }
 
     companion object {
