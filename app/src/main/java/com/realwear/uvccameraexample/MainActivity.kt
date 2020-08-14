@@ -39,9 +39,6 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     private var currentSize = EMPTY_SIZE
     private val cameraMutex = Mutex()
     private var surface: Surface? = null
-    private var mediaRecorder = MediaRecorder()
-    private val saveFolder =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -166,24 +163,19 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
      *
      * The application will need to request the WRITE_EXTERNAL_STORAGE permission to use this.
      */
-    private fun takePhoto() {
-        val bitmap = textureView.bitmap
-        var file = saveFolder
-        if (!file.exists()) {
-            file.mkdirs()
-        }
-        file = File(file, "${UUID.randomUUID()}.jpg")
-
-        try {
-            // Compress the bitmap and save in jpg format
-            FileOutputStream(file).use { stream ->
-                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            }
-        } catch (e: IOException) {
-            Log.e(TAG, "Failed to save image", e)
-            return
-        }
-    }
+//    private fun takePhoto(saveFile: File) {
+//        val bitmap = textureView.bitmap
+//
+//        try {
+//            // Compress the bitmap and save in jpg format
+//            FileOutputStream(saveFile).use { stream ->
+//                bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+//            }
+//        } catch (e: IOException) {
+//            Log.e(TAG, "Failed to save image", e)
+//            return
+//        }
+//    }
 
     /**
      * An example of saving a video using a surface
@@ -191,51 +183,27 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
      * The application will need to request the WRITE_EXTERNAL_STORAGE and the RECORD_AUDIO
      * permissions to use this.
      */
-    private fun takeVideo() {
-        var file = saveFolder
-        if (!file.exists()) {
-            file.mkdirs()
-        }
-
-        file = File(file, "${UUID.randomUUID()}.mp4")
-        Log.i(TAG, "Video should be saved to: " + file.absolutePath)
-
-        mediaRecorder = MediaRecorder()
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-
-        surface?.let { mediaRecorder.setInputSurface(it) }
-
-        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC_ELD)
-        mediaRecorder.setAudioSamplingRate(1600) // Set sampling rate to 16kHz
-        mediaRecorder.setOutputFile(file)
-        mediaRecorder.setVideoSize(currentSize.width, currentSize.height)
-
-        try {
-            mediaRecorder.prepare()
-            mediaRecorder.start()
-        } catch (e: IOException) {
-            Log.e(TAG, "MediaRecorder prepare() failed", e)
-        }
-    }
-
-    /**
-     * Stop recording a video
-     *
-     * Called when video recording is completed
-     */
-    private fun stopVideo() {
-        try {
-            mediaRecorder.stop()
-            mediaRecorder.reset()
-            mediaRecorder.release()
-        } catch (e: IOException) {
-            Log.e(TAG, "MediaRecorder stop() failed", e)
-            return
-        }
-    }
+//    private fun takeVideo(saveFile: File) {
+//        val mediaRecorder = MediaRecorder()
+//        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
+//        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+//        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//
+//        surface?.let { mediaRecorder.setInputSurface(it) }
+//
+//        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+//        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC_ELD)
+//        mediaRecorder.setAudioSamplingRate(1600) // Set sampling rate to 16kHz
+//        mediaRecorder.setOutputFile(saveFile)
+//        mediaRecorder.setVideoSize(currentSize.width, currentSize.height)
+//
+//        try {
+//            mediaRecorder.prepare()
+//            mediaRecorder.start()
+//        } catch (e: IOException) {
+//            Log.e(TAG, "MediaRecorder prepare() failed", e)
+//        }
+//    }
 
     /**
      * Find a valid resolution that the [camera] supports.
