@@ -34,7 +34,7 @@ import java.io.IOException
 class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     private var mUSBMonitor: USBMonitor? = null
     private var currentCamera: UVCCamera? = null
-    private var currentSize = EMPTY_SIZE
+    private var currentSize = ResolutionUtils.EMPTY_SIZE
     private val cameraMutex = Mutex()
     private var surface: Surface? = null
 
@@ -93,8 +93,8 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
         camera.setPreviewDisplay(surface)
 
         // Specify camera preview size and format
-        val size: Size = getResolution(camera)
-        if (size == EMPTY_SIZE) {
+        val size: Size = ResolutionUtils.getResolution(camera)
+        if (size == ResolutionUtils.EMPTY_SIZE) {
             Log.e(TAG, "Failed to find a resolution from the camera")
             return
         }
@@ -200,18 +200,7 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
         }
     }
 
-    /**
-     * Find a valid resolution that the [camera] supports.
-     */
-    private fun getResolution(camera: UVCCamera): Size {
-        val possibleSizes: List<Size> = camera.supportedSizeList
-
-        if (possibleSizes.isEmpty()) return EMPTY_SIZE
-        return possibleSizes.first()
-    }
-
     companion object {
         const val TAG = "UvcCameraExample"
-        private val EMPTY_SIZE = Size(0, 0, 0, 0, 0)
     }
 }
