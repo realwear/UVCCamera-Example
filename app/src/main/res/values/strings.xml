@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">UVCCamera Example</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="connect_message">Please connect a camera to continue.</string>
+</resources>
