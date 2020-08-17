@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Surface
+import android.view.View
 import com.serenegiant.usb.Size
 import com.serenegiant.usb.USBMonitor
 import com.serenegiant.usb.UVCCamera
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
     override fun onAttach(device: UsbDevice?) {
         Log.i(TAG, "Device has been attached")
         releaseCameraAsync()
+        runOnUiThread { connectCameraMessage.visibility = View.GONE }
 
         // When the camera is attached, we need to ask the user for permission to access it.
         mUSBMonitor?.requestPermission(device)
@@ -129,6 +131,7 @@ class MainActivity : AppCompatActivity(), USBMonitor.OnDeviceConnectListener {
      */
     override fun onDettach(device: UsbDevice?) {
         Log.i(TAG, "Device has been detached")
+        runOnUiThread { connectCameraMessage.visibility = View.VISIBLE }
     }
 
     /**
