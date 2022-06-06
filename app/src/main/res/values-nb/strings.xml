@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <!-- Control Panel -->
+  <string name="app_name">Mine kontroller</string>
+  <!-- Dark -->
+  <string name="option_dark">Mørk</string>
+  <!-- Light -->
+  <string name="option_light">Lys</string>
+  <!-- On -->
+  <!--feedback from michael.tran@realwear.com-->
+  <string name="on">På</string>
+  <!-- Off -->
+  <!--feedback from michael.tran@realwear.com-->
+  <string name="off">Av</string>
+  <string name="automute_on">Automute på</string>
+  <string name="automute_off">Automute av</string>
+  <string name="visible">Synlig</string>
+  <string name="gone">Skjult</string>
+  <!-- Cloud -->
+  <string name="cloud">Sky</string>
+  <!-- Local -->
+  <!--feedback from michael.tran@realwear.com-->
+  <string name="local">Lokalt</string>
+  <string name="searching">Søker…</string>
+  <string name="level">Nivå %d</string>
+  <string name="set_level">Sett nivå</string>
+  <string name="set_level_number">Sett nivå %d</string>
+  <string name="secure_name">%s sikker</string>
+  <string name="power_down">Slå av</string>
+  <string name="reboot">Start på nytt</string>
+  <string name="sleep">Sov nå</string>
+  <string name="hotswap">Hotswap</string>
+  <string name="enable">Muliggjøre</string>
+  <string name="disable">Deaktiver</string>
+  <string name="more_settings">Flere innstillinger</string>
+  <string name="wireless_settings">Innstillinger for trådløst nettverk</string>
+  <string name="bluetooth_settings">Bluetooth-innstillinger</string>
+  <string name="homescreen">Startskjermen</string>
+  <string name="ambient_noise">Støyfangst</string>
+  <string name="auto_rotate">Auto roter</string>
+  <string name="action_button">Handlingsknapp</string>
+  <string name="bluetooth">blåtann</string>
+  <string name="brightness">Lysstyrke</string>
+  <string name="dictation">Diktat</string>
+  <string name="flashlight">Lommelykt</string>
+  <string name="help_command">Hjelpekommando</string>
+  <string name="theme_selection">Fargemodus</string>
+  <string name="microphone">Mikrofon</string>
+  <string name="mouse">Mus</string>
+  <string name="power_options">Strømalternativer</string>
+  <string name="volume">Volum</string>
+  <string name="wireless_network">Trådløst nettverk</string>
+  <string name="wearml_indicators">WearML-indikatorer</string>
+  <string name="preferred_network">Foretrukket nettverk</string>
+  <string name="swap_title">Klar for bytte?</string>
+  <string name="swap_message">Vent til strømknappen blinker før du bytter batteri.</string>
+  <string name="cancel">Avbryt</string>
+  <string name="start_swap">Start Swap</string>
+  <string name="title_please_charge">Kan ikke utføre hotswap</string>
+  <string name="message_please_charge">Utilstrekkelig reservebatteri til å utføre hotswap. Plugg inn for å lade.</string>
+  <string name="preparing_for_swap">Forbereder for bytte...</string>
+  <string name="camera_unavailable">Kan ikke slå på lommelykten. Kameralys brukes av andre apper.</string>
+  <string name="camera_state_unknown">Ukjent</string>
+  <string name="fade_never">Fade Aldri</string>
+  <string name="fade_time">Fade %d sekunder</string>
+  <string name="network_lte">LTE</string>
+  <string name="network_wifi">Trådløse nettverk</string>
+  <string name="switch_view">Bytt visning</string>
+  <string name="layout_mode">Layout-modus</string>
+  <string name="grid_mode">Rutenettmodus</string>
+  <string name="scroll_mode">Rullemodus</string>
+  <string name="permissions_required_details">Denne applikasjonen krever visse tillatelser for å fungere korrekt.</string>
+  <string name="permissions_required_button">Be om tillatelser</string>
+  <string name="permissions_required_draw_overlays_details">Denne applikasjonen krever tillatelse til å tegne over andre apper før den kan fungere korrekt.</string>
+  <string name="permissions_required_draw_overlays_button">Be om tillatelse</string>
+  <string name="permissions_required_write_settings_details">Denne applikasjonen krever tillatelse til å oppdatere systeminnstillingene før den kan fungere korrekt.</string>
+  <string name="permissions_required_write_settings_button">Be om tillatelse</string>
+  <string name="permissions_all_set">Denne applikasjonen har alle tillatelsene den krever for å fungere.</string>
+  <string name="telephoto">Telefoto-modus</string>
+  <string name="telephoto_on">Telefoto på</string>
+  <string name="telephoto_off">Telefoto av</string>
+  <string name="wired_mic">Kablet mikrofon</string>
+  <string name="file_sharing">Fildeling</string>
+</resources>
